@@ -75,14 +75,6 @@ source $ZSH/oh-my-zsh.sh
 alias v='mvim -v'
 alias dot='v -S $HOME/.allDots'
 #alias -s com='chromium-browser'
-#alias gs='git status'
-#alias gl='git log'
-#alias gls='git log --stat'
-#alias gd='git diff'
-#alias ga='git add .'
-#alias gc='git commit -m $1'
-#alias gp='git push origin $1'
-#alias gla='git log --oneline --decorate --graph --all'
 
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
@@ -102,6 +94,3 @@ BASE16_SCHEME="default"
 BASE16_SHELL="$HOME/.config/base16-shell/base16-$BASE16_SCHEME.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
-#if [ -n "$PS1" ]; then
-#    eval "$(~/.config/base16-shell/profile_helper.sh)"
-#fi
