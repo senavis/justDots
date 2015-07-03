@@ -24,6 +24,7 @@ Plugin 'vim-scripts/TagHighlight'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'mileszs/ack.vim'
 Plugin 'rking/ag.vim'
+Plugin 'sjl/gundo.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'chriskempson/base16-vim'
 "Plugin 'wincent/command-t'
@@ -37,9 +38,11 @@ set fileencoding=utf-8
 set encoding=utf-8
 set wrap
 set number 
+"set ruler
 set linebreak
 set wildmenu
 set wildmode=list:longest
+set wildignore=*.o,*~,*.class,*.pyc
 set gdefault "for global search/replace
 set ignorecase
 set hlsearch
@@ -47,11 +50,13 @@ set autoindent
 set smartcase
 set incsearch
 set showmatch
+set mat=2
 set showcmd
 set backspace=indent,eol,start
 set shiftwidth=4 softtabstop=4 tabstop=8 expandtab             
 set foldmethod=marker
 set nolist
+set smarttab
 set noswapfile
 set cursorline
 set visualbell
@@ -59,8 +64,10 @@ set scrolloff=3
 syntax on "highlight based on syntax
 "system clipboard
 set clipboard=unnamed
+set pastetoggle=<F9>
 set ttyfast "faster redraw
 set title
+set autoread
 "}}}
 
 "for base16 {{{
@@ -84,7 +91,10 @@ endif
 "}}}
 
 "Ctrlp settings {{{
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+"let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 if executable('ag')
       let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   endif
@@ -111,10 +121,16 @@ endif
 "for vim-airline {{{
 set laststatus=2
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'base16'
+"let g:airline_theme = 'base16'
 let g:airline#extensions#bufferline#enabled = 0 "disabled bufferline to avoid the clutter buffer names 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+"let g:airline_left_sep = ''
+"let g:airline_left_alt_sep = ''
+"let g:airline_right_sep = ''
+"let g:airline_right_alt_sep = ''
 "}}}
 
 let mapleader="," "leader key
@@ -180,6 +196,8 @@ augroup END
 " }}}
 
 "custom remaps {{{
+" highlight last inserted text
+nnoremap gV `[v`]
 "Disable arrow keys
 noremap <left> <nop>
 noremap <right> <nop>
@@ -220,7 +238,9 @@ nnoremap H ^
 nnoremap j gj
 nnoremap k gk
 nnoremap D d$
-
+nnoremap <space> za
+nnoremap <leader>u :GundoToggle<CR>
+nnoremap <leader>a :Ag
 "remap esc key
 inoremap kj <ESC>
 "Close current buffer
@@ -241,3 +261,43 @@ if $TERM_PROGRAM =~ "iTerm.app"
     let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
     let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 endif
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+" Remember info about open buffers on close
+set viminfo^=%
+
+"functions start {{{
+
+""""""""""""""""""""""""""""""
+" => Visual mode related
+""""""""""""""""""""""""""""""
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+"vnoremap <silent> * :call VisualSelection('f')<CR>
+"vnoremap <silent> # :call VisualSelection('b')<CR>
+
+function! VisualSelection(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+"}}}

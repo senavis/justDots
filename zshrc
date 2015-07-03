@@ -48,7 +48,7 @@ ZSH_THEME="gozilla"
 plugins=(git tmux ruby history osx brew zsh-syntax-highlighting)
 
 # User configuration
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -84,7 +84,6 @@ alias dot='v -S $HOME/.allDots'
  fi
 
 # Fun stuff
-# alias lol='$HOME/.rvm/gems/ruby-2.2.1/bin/lolcat'
 fortune -s computers | cowsay | lolcat
 
 export PATH="$HOME/.rvm/gems/ruby-2.2.1/bin:$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
