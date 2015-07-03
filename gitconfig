@@ -1,0 +1,13 @@
+# This is Git's per-user configuration file.
+[core]
+# Please adapt and uncomment the following lines:
+#	user = Sivganes
+#	email = SivG@Mac-Pro.local
+[user]
+	name = Sivan Ganes
+	email = 99formed@gmail.com
+[color]
+	ui = true
+
+[diff]
+       tool = gvimdiff
