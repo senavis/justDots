@@ -45,7 +45,7 @@ ZSH_THEME="gozilla"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux ruby history osx brew zsh-syntax-highlighting)
+plugins=(git tmux history osx brew zsh-syntax-highlighting common-aliases)
 
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
