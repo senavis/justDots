@@ -73,13 +73,12 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # alias vim="stty stop '' -ixoff; vim"
 alias v='mvim -v'
-alias dot='v -S $HOME/.allDots'
+alias dot='gvim -S $HOME/.allDots'
 #alias -s com='chromium-browser'
 
 # Preferred editor for local and remote sessions
  if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='vim'
- else
    export EDITOR='mvim -v'
  fi
 

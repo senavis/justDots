@@ -80,7 +80,8 @@ set background=dark
 
 if $TERM_PROGRAM =~ "iTerm.app" 
     let base16colorspace=256
-    colorscheme base16-default
+    "colorscheme base16-default
+    colorscheme badwolf
 "hack for terminal color scheme 
 "let g:solarized_visibility = "high"
 elseif $TERM_PROGRAM =~ "Apple_Terminal"
@@ -113,10 +114,18 @@ if executable('ag')
 "for Ag
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
-"for gvim
+"for gvim {{{
 if has("gui_running")
-    set guifont=Inconsolata\ For\ PowerLine\:h14
+    set guifont=Inconsolata\ For\ PowerLine\:h16
+    let g:badwolf_tabline = 2
+    let g:badwolf_html_link_underline = 0
+    colorscheme badwolf 
+    set guioptions-=m  "remove menu bar
+    set guioptions-=T  "remove toolbar
+    set guioptions-=r  "remove right-hand scroll bar
+    set guioptions-=L  "remove left-hand scroll bar
 endif
+" }}}
 
 "for vim-airline {{{
 set laststatus=2
