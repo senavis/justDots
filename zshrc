@@ -45,7 +45,7 @@ ZSH_THEME="gozilla"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux history osx brew zsh-syntax-highlighting common-aliases)
+plugins=(git tmux history z osx brew zsh-syntax-highlighting common-aliases)
 
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
@@ -84,6 +84,10 @@ alias dot='gvim -S $HOME/.allDots'
 
 # Fun stuff
 fortune -s computers | cowsay | lolcat
+
+# for Z
+#. `brew --prefix`/etc/profile.d/z.sh
+. $HOME/.oh-my-zsh/plugins/z/z.sh
 
 export PATH="$HOME/.rvm/gems/ruby-2.2.1/bin:$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 

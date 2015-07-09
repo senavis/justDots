@@ -19,8 +19,21 @@ bind '"' split-window -c "#{pane_current_path}"
 # set -g default-command /usr/local/bin/zsh
 set -g default-shell /usr/local/bin/zsh
 set -g default-terminal "screen-256color"
-#set -g status-fg white
 
+# resize panes using PREFIX H, J, K, L
+bind H resize-pane -L 5
+bind J resize-pane -D 5
+bind K resize-pane -U 5
+bind L resize-pane -R 5
+
+# C-i for even-vertical arrangement and C-o to zoom current pane
+bind-key C-i select-layout even-vertical
+bind-key C-v select-layout even-horizontal
+bind-key C-o resize-pane -y 1000
+bind-key C-l resize-pane -x 1000
+
+# Sync panes
+bind C-a set-window-option synchronize-panes
 
 # ----------------------
 # set some pretty colors
@@ -63,12 +76,12 @@ set-window-option -g window-status-current-attr bright
 
 # show host name and IP address on left side of status bar
 set -g status-left-length 85 
-set -g status-left "#[fg=green]: #h : #[fg=brightblue]#(dig +short myip.opendns.com @resolver1.opendns.com) #[fg=yellow]#(ifconfig en0 | grep 'inet ' | awk '{print \"en0 \" $2}') #(ifconfig en1 | grep 'inet ' | awk '{print \"en1 \" $2}') #(ifconfig en3 | grep 'inet ' | awk '{print \"en3 \" $2}') #[fg=red]#(ifconfig tun0 | grep 'inet ' | awk '{print \"vpn \" $2}') #[fg=green]#(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk -F': ' '/ SSID/{print $2}') "
+set -g status-left "#[fg=green]:: #(whoami) :#[fg=green]: #h : #[fg=brightblue]#(dig +short myip.opendns.com @resolver1.opendns.com) #[fg=yellow]#(ifconfig en0 | grep 'inet ' | awk '{print \"en0 \" $2}') #(ifconfig en1 | grep 'inet ' | awk '{print \"en1 \" $2}') #(ifconfig en3 | grep 'inet ' | awk '{print \"en3 \" $2}') #[fg=red]#(ifconfig tun0 | grep 'inet ' | awk '{print \"vpn \" $2}') #[fg=green]#(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk -F': ' '/ SSID/{print $2}') "
 
 # show session name, window & pane number, date and time on right side of
 # status bar
 set -g status-right-length 60
-set -g status-right "#[fg=blue]#S #I:#P #[fg=yellow]: %d %b %Y #[fg=green]: %l:%M %p : #(date -u | awk '{print $4}') :"
+set -g status-right "#[fg=blue]#S #I:#P #[fg=yellow]: %a %d %b %Y #[fg=green]: %l:%M %p : #(date -u | awk '{print $4}') :"
 
 
 # Reload config with a kej
@@ -80,9 +93,13 @@ bind ^B select-pane -t :.+
 
 # Start numbering at 1
 set -g base-index 1
+setw -g pane-base-index 1
 
 # Mouse on
 set -g mode-mouse on
+#set -g mode-mouse copy
+setw -g mouse-select-window on
+setw -g mouse-select-pane on
 
 # List of plugins
 #
@@ -125,6 +142,13 @@ set-window-option -g automatic-rename on
 bind c new-window
 bind , command-prompt "rename-window '%%'"
 bind > run-shell "tmux rename-window `basename #{pane_current_path}`"
+
+# Clock
+setw -g clock-mode-colour colour250
+setw -g clock-mode-style 24
+
+# Clear the current pane 
+bind C-k send-keys 'C-l'
 
 # # Keep this line at the very bottom of tmux.conf.
 run-shell '~/.tmux/plugins/tpm/tpm'

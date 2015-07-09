@@ -114,6 +114,11 @@ if executable('ag')
 "for Ag
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
+"for ignoring zip types
+let g:loaded_zipPlugin= 1                                               
+let g:loaded_zip      = 1   
+let g:loaded_gzip     = 1   
+
 "for gvim {{{
 if has("gui_running")
     set guifont=Inconsolata\ For\ PowerLine\:h16
