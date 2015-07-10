@@ -88,6 +88,7 @@ fortune -s computers | cowsay | lolcat
 # for Z
 #. `brew --prefix`/etc/profile.d/z.sh
 . $HOME/.oh-my-zsh/plugins/z/z.sh
+`brew --prefix`/etc/grc.bashrc
 
 export PATH="$HOME/.rvm/gems/ruby-2.2.1/bin:$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
