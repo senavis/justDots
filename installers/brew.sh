@@ -30,6 +30,7 @@ brew install htop-osx
 brew install python
 brew install grc
 brew install coreutils
+brew install findutils
 brew install msmtp
 brew install offline-imap
 brew install fish
@@ -53,6 +54,27 @@ brew cask install vlc
 brew cask install the-unarchiver
 brew cask install iterm2 #top most
 brew cask install alfred 
+brew cask install transmission
+brew cask install skype
+brew cask install sublime-text3
+brew cask install dropbox
+brew cask install xtrafinder
+#brew cask install controlplane
+
+# install font - like a boss!
+
+brew tap caskroom/fonts
+# fonts -- search for more with [$brew cask search /font-inconsola]
+fonts=(
+  font-inconsolata-for-powerline
+  font-m-plus
+  font-clear-sans
+  font-roboto
+)
+
+# install fonts
+echo "installing fonts..."
+brew cask install ${fonts[@]}
 
 # cleanup
 brew cleanup

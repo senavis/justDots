@@ -35,4 +35,7 @@ fi
 echo "Configuring zsh as default shell"
 chsh -s $(which zsh)
 
+echo "Install Oh-my-zsh"
+curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+
 echo "Done."
