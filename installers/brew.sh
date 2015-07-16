@@ -13,9 +13,8 @@ brew install openssl
 
 # development tools
 brew install git
-brew install hub
+#brew install hub
 brew install macvim --override-system-vim
-brew install reattach-to-user-namespace
 brew install tmux
 brew install zsh
 brew install highlight
@@ -60,21 +59,6 @@ brew cask install sublime-text3
 brew cask install dropbox
 brew cask install xtrafinder
 #brew cask install controlplane
-
-# install font - like a boss!
-
-brew tap caskroom/fonts
-# fonts -- search for more with [$brew cask search /font-inconsola]
-fonts=(
-  font-inconsolata-for-powerline
-  font-m-plus
-  font-clear-sans
-  font-roboto
-)
-
-# install fonts
-echo "installing fonts..."
-brew cask install ${fonts[@]}
 
 # cleanup
 brew cleanup

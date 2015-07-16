@@ -15,7 +15,7 @@ brew tap caskroom/fonts
 # fonts -- search for more with [$brew cask search /font-inconsola]
 fonts=(
   font-inconsolata-for-powerline
-  font-m-plus
+  #font-m-plus
   font-clear-sans
   font-roboto
 )

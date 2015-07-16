@@ -16,8 +16,8 @@ bind c new-window -c "#{pane_current_path}"
 bind % split-window -h -c "#{pane_current_path}"
 bind '"' split-window -c "#{pane_current_path}"
 
-# set -g default-command /usr/local/bin/zsh
-set -g default-shell /usr/local/bin/zsh
+#set -g default-command /usr/local/bin/zsh
+#set -g default-shell /usr/local/bin/zsh
 set -g default-terminal "screen-256color"
 
 # resize panes using PREFIX H, J, K, L
@@ -76,11 +76,12 @@ set-window-option -g window-status-current-attr bright
 tm_mail="#[fg=green]#(osascript ~/dotfiles/scripts/mail.scpt)"
 # show host name and IP address on left side of status bar
 set -g status-left-length 85 
+#set -g status-left-bg colour235 #base02
 set -g status-left "#[fg=green]:: #(whoami) [$tm_mail] :#[fg=green]: #h : #[fg=brightblue]#(dig +short myip.opendns.com @resolver1.opendns.com) #[fg=yellow]#(ifconfig en0 | grep 'inet ' | awk '{print \"en0 \" $2}') #(ifconfig en1 | grep 'inet ' | awk '{print \"en1 \" $2}') #(ifconfig en3 | grep 'inet ' | awk '{print \"en3 \" $2}') #[fg=red]#(ifconfig tun0 | grep 'inet ' | awk '{print \"vpn \" $2}') #[fg=green]#(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | awk -F': ' '/ SSID/{print $2}')"
 
 # show session name, window & pane number, date and time on right side of
 # status bar
-set -g status-right-length 60
+set -g status-right-length 70
 set -g status-right "#[fg=blue]#S #I:#P #[fg=yellow]: %a %d %b %Y #[fg=green]: %l:%M %p : #(date -u | awk '{print $4}') :"
 
 
@@ -97,7 +98,6 @@ setw -g pane-base-index 1
 
 # Mouse on
 set -g mode-mouse on
-#set -g mode-mouse copy
 setw -g mouse-select-window on
 setw -g mouse-select-pane on
 
@@ -135,11 +135,10 @@ set -g @continuum-save-interval '60'
 # Copy & Paste
 # ---------------------
 # provide access to the clipboard for pbpaste, pbcopy
-set-option -g default-command "reattach-to-user-namespace -l zsh"
 set-window-option -g automatic-rename on
 
 # Better name management
-bind c new-window
+#bind c new-window
 bind , command-prompt "rename-window '%%'"
 bind > run-shell "tmux rename-window `basename #{pane_current_path}`"
 
