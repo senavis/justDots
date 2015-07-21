@@ -26,7 +26,7 @@ set signature        = ~/.mutt/sig           # my signature file
 set sidebar_delim   = '  │'
 set sidebar_visible = yes
 set sidebar_width   = 34
-color sidebar_new yellow default
+color sidebar_new red default
 # Sidebar Navigation ---------------------------------
 bind index,pager <down>   sidebar-next
 bind index,pager <up>     sidebar-prev
@@ -46,6 +46,7 @@ set sort_aux = reverse-last-date-received  # like gmail
 set uncollapse_jump                        # don't collapse on an unread message
 set sort_re                                # thread based on regex
 set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+#set folder_format = "%2C %t %N %8s %f"
 
 # Header Options -------------------------------------
 ignore *                                # ignore all headers
@@ -126,7 +127,7 @@ set tilde                  # show tildes like in vim
 unset markers              # no ugly plus signs
 
 set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
-alternative_order text/plain text/enriched text/html
+alternative_order text/enriched text/plain text/html
 
 # Pager Key Bindings ---------------------------------
 bind pager k  previous-line
@@ -144,7 +145,8 @@ bind index p recall-message
 macro pager \Cu "|urlview<enter>" "call urlview to open links"
 
 # Colors
-source ~/.colors.muttrc
+#source ~/.colors.muttrc
+source ~/.colors.badwolf.muttrc
 
 # Compose View Options -------------------------------
 set realname = "Siva Ganes"          # who am i?
@@ -181,3 +183,64 @@ bind pager N search-opposite
 macro index a "<limit>all\n" "show all messages (undo limit)"
 
 macro index S "<enter-command>unset wait_key<enter><shell-escape>mutt-notmuch-py ~/.mail/temporary/search<enter><change-folder-readonly>+temporary/search<enter>" "search mail (using notmuch)"
+
+auto_view text/html
+# Attachment View Options {{{
+
+#set attach_format = "[%D %t] %2n [%-7.7m/%10.10M] %.40d %> [%s] "
+
+# }}}
+##
+## *** DEFAULT SETTINGS FOR THE ATTACHMENTS PATCH ***
+##
+
+##
+## Please see the manual (section "attachments")  for detailed
+## documentation of the "attachments" command.
+##
+## Removing a pattern from a list removes that pattern literally. It
+## does not remove any type matching the pattern.
+##
+##  attachments   +A */.*
+##  attachments   +A image/jpeg
+##  unattachments +A */.*
+##
+## This leaves "attached" image/jpeg files on the allowed attachments
+## list. It does not remove all items, as you might expect, because the
+## second */.* is not a matching expression at this time.
+##
+## Remember: "unattachments" only undoes what "attachments" has done!
+## It does not trigger any matching on actual messages.
+
+## Qualify any MIME part with an "attachment" disposition, EXCEPT for
+## text/x-vcard and application/pgp parts. (PGP parts are already known
+## to mutt, and can be searched for with ~g, ~G, and ~k.)
+##
+## I've added x-pkcs7 to this, since it functions (for S/MIME)
+## analogously to PGP signature attachments. S/MIME isn't supported
+## in a stock mutt build, but we can still treat it specially here.
+##
+#attachments   +A */.*
+#attachments   -A text/x-vcard application/pgp.*
+#attachments   -A application/x-pkcs7-.*
+
+## Discount all MIME parts with an "inline" disposition, unless they're
+## text/plain. (Why inline a text/plain part unless it's external to the
+## message flow?)
+##
+## attachments   +I text/plain
+## attachments   +I text/html
+  
+## These two lines make Mutt qualify MIME containers.  (So, for example,
+## a message/rfc822 forward will count as an attachment.)  The first
+## line is unnecessary if you already have "attach-allow */.*", of
+## course.  These are off by default!  The MIME elements contained
+## within a message/* or multipart/* are still examined, even if the
+## containers themselves don't qualify.
+##
+#attachments  +A message/.* multipart/.*
+#attachments  +I message/.* multipart/.*
+
+## You probably don't really care to know about deleted attachments.
+#attachments   -A message/external-body
+#attachments   -I message/external-body

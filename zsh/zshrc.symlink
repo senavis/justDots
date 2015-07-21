@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/SivG/.oh-my-zsh
-
+export HOMEBREW_GITHUB_API_TOKEN=faa95825e94fc6941914acb0d3224493febdd79b
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -23,7 +23,7 @@ ZSH_THEME="gozilla"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+#ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -45,7 +45,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux history z osx brew zsh-syntax-highlighting common-aliases ruby)
+plugins=(git tmux history z osx brew zsh-syntax-highlighting common-aliases ruby rails)
 
 # User configuration
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin"
@@ -89,12 +89,13 @@ fortune -s computers | cowsay | lolcat
 # for Z
 #. `brew --prefix`/etc/profile.d/z.sh
 . $HOME/.oh-my-zsh/plugins/z/z.sh
+source $HOME/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 `brew --prefix`/etc/grc.bashrc
 
 export PATH="$HOME/.rvm/gems/ruby-2.2.1/bin:$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 # Base16 Shell
-BASE16_SCHEME="default"
+BASE16_SCHEME="atelierforest"
 BASE16_SHELL="$HOME/.config/base16-shell/base16-$BASE16_SCHEME.dark.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 

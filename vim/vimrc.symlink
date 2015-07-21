@@ -91,17 +91,25 @@ elseif $TERM_PROGRAM =~ "Apple_Terminal"
 endif
 "}}}
 
+"for Ag
+let g:ackprg = 'ag --nogroup --nocolor --column'
+
 "Ctrlp settings {{{
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
-let g:ctrlp_working_path_mode = 0
+let g:ctrlp_working_path_mode = 0 
 "let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-if executable('ag')
-      let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  endif
 "for ctrl-p to show hidden files
 "let g:ctrlp_show_hidden = 1
-"let g:ctrlp_max_files = 0
+let g:ctrlp_max_files = 0
+let g:ctrlp_follow_symlinks = 1
+let g:ctrlp_use_caching = 0 "no caching since ag is used
+if executable('ag')
+      let g:ctrlp_user_command = 'ag %s -l --hidden
+                  \ --ignore .git
+                  \ --ignore .vim
+                  \ -g ""'
+endif
 "}}}
 
 "for windows auto-resizing {{{
@@ -111,8 +119,8 @@ if executable('ag')
 "set winheight=999
 "}}}
 
-"for Ag
-let g:ackprg = 'ag --nogroup --nocolor --column'
+"for mutt
+setlocal fo+=aw
 
 "for ignoring zip types
 let g:loaded_zipPlugin= 1                                               
@@ -210,7 +218,7 @@ augroup END
 " }}}
 
 "custom remaps {{{
-" highlight last inserted text
+" select entire buffer
 nnoremap gV `[v`]
 "Disable arrow keys
 noremap <left> <nop>
