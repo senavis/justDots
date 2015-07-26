@@ -19,7 +19,7 @@ brew install tmux
 brew install zsh
 #brew install highlight
 brew install z
-brew install markdown
+brew install markdown #optional
 
 # more stuff
 brew install mutt

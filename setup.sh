@@ -1,4 +1,5 @@
 #!/bin/bash
+#TODO backup existing dotfiles if any.
 
 echo "Installing dotfiles"
 

@@ -1,37 +1,6 @@
-filetype off "for vundle - required
-set nocompatible "for vundle - required
+source ~/.vim/plugins.vim "load the plugins
 
-"Vundle plugins call {{{
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tpope/vim-vinegar'
-Plugin 'kien/ctrlp.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-obsession'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'bling/vim-airline'
-Plugin 'bling/vim-bufferline'
-Plugin 'xolox/vim-easytags'
-Plugin 'xolox/vim-misc'
-Plugin 'majutsushi/tagbar'
-Plugin 'vim-scripts/TagHighlight'
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'mileszs/ack.vim'
-Plugin 'rking/ag.vim'
-Plugin 'sjl/gundo.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'chriskempson/base16-vim'
-"Plugin 'wincent/command-t'
-
-call vundle#end() 
-filetype plugin indent on
-" }}}
+let mapleader="," "leader key
 
 "common stuff for vim {{{
 set fileencoding=utf-8
@@ -41,7 +10,8 @@ set number
 "set ruler
 set linebreak
 set wildmenu
-set wildmode=list:longest
+"set wildmode=list:longest "bash style menu
+set wildmode=full "zsh style menu
 set wildignore=*.o,*~,*.class,*.pyc
 set gdefault "for global search/replace
 set ignorecase
@@ -62,15 +32,17 @@ set cursorline
 set visualbell
 set scrolloff=3
 syntax on "highlight based on syntax
-"system clipboard
-set clipboard=unnamed
+set clipboard=unnamed "system clipboard
 set pastetoggle=<F9>
 set ttyfast "faster redraw
 set title
 set autoread
+set history=200
+set textwidth=80
+set colorcolumn=+1
 "}}}
 
-"for base16 {{{
+"for colorscheme {{{
 set background=dark
 
 "if filereadable(expand("~/.vim/vimrc_background"))
@@ -79,7 +51,7 @@ set background=dark
 "endif
 
 if $TERM_PROGRAM =~ "iTerm.app" 
-    let base16colorspace=256
+    " let base16colorspace=256
     "colorscheme base16-default
     colorscheme badwolf
 "hack for terminal color scheme 
@@ -90,9 +62,6 @@ elseif $TERM_PROGRAM =~ "Apple_Terminal"
     colorscheme solarized
 endif
 "}}}
-
-"for Ag
-let g:ackprg = 'ag --nogroup --nocolor --column'
 
 "Ctrlp settings {{{
 let g:ctrlp_match_window = 'bottom,order:ttb'
@@ -105,10 +74,10 @@ let g:ctrlp_max_files = 0
 let g:ctrlp_follow_symlinks = 1
 let g:ctrlp_use_caching = 0 "no caching since ag is used
 if executable('ag')
-      let g:ctrlp_user_command = 'ag %s -l --hidden
-                  \ --ignore .git
-                  \ --ignore .vim
-                  \ -g ""'
+      let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'  
+                  " \ --ignore .git
+                  " \ --ignore .vim
+                  " \ -g ""'
 endif
 "}}}
 
@@ -119,31 +88,28 @@ endif
 "set winheight=999
 "}}}
 
-"for mutt
-setlocal fo+=aw
-
-"for ignoring zip types
-let g:loaded_zipPlugin= 1                                               
-let g:loaded_zip      = 1   
-let g:loaded_gzip     = 1   
-
 "for gvim {{{
 if has("gui_running")
     set guifont=Inconsolata\ For\ PowerLine\:h16
-    let g:badwolf_tabline = 2
-    let g:badwolf_html_link_underline = 0
-    colorscheme badwolf 
+    colorscheme badwolf
     set guioptions-=m  "remove menu bar
+    " set guioptions+=M  "remove system bar
     set guioptions-=T  "remove toolbar
     set guioptions-=r  "remove right-hand scroll bar
+    " set guioptions-=R  "remove right-hand scroll bar
     set guioptions-=L  "remove left-hand scroll bar
+    " set guioptions-=l  "remove left-hand scroll bar
+    " set guioptions=egmrt
+    " set fuoptions=maxvert,maxhorz
+    let g:airline_theme = 'badwolf'
+    let g:airline_powerline_fonts = 0
 endif
 " }}}
 
 "for vim-airline {{{
 set laststatus=2
 let g:airline_powerline_fonts = 1
-"let g:airline_theme = 'base16'
+let g:airline_theme = 'badwolf'
 let g:airline#extensions#bufferline#enabled = 0 "disabled bufferline to avoid the clutter buffer names 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
@@ -155,7 +121,6 @@ let g:airline#extensions#tabline#show_buffers = 1
 "let g:airline_right_alt_sep = ''
 "}}}
 
-let mapleader="," "leader key
 "autocommands {{{
 "automatically resize panes on resizing
 autocmd VimResized * exe "normal! \<c-w>="
@@ -173,6 +138,14 @@ augroup VimAutoSource
     autocmd BufWritePost $MYVIMRC source $MYVIMRC
     autocmd BufWritePost $MYVIMRC AirlineRefresh
 augroup END
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+" Remember info about open buffers on close
+set viminfo^=%
 
 augroup JavaScriptCmds
     autocmd!
@@ -224,27 +197,17 @@ nnoremap gV `[v`]
 noremap <left> <nop>
 noremap <right> <nop>
 noremap <up> <nop>
-noremap <down> <nop>
-
+noremap <down> autoread<nop>
+"simulate up,down with ctrl p and n
+cnoremap <C-p> <up>
+cnoremap <C-n> <down>
 "Window split mapping
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
-
-"Tab wrapper feature
-function! InsertTabWrapper()
-    let col = col(".") - 1
-    if !col || getline(".")[col -1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-n>"
-endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <s-tab> <c-p>
-
 "Disable highlights
-nnoremap <leader><space> :noh<cr>
+nnoremap <silent><leader><space> :noh<cr>
 nnoremap <leader>ev :tabe $MYVIMRC<cr>
 "nnoremap <leader>sv :so $MYVIMRC<cr>
 nnoremap <tab> >>
@@ -255,8 +218,9 @@ nnoremap <leader>n :NERDTree<cr>
 nnoremap <leader>, :w<cr>
 nnoremap <leader>r :e<cr>
 nnoremap <leader>q :qa<cr>
-nnoremap L $
-nnoremap H ^
+nnoremap <leader>< :q!<cr>
+nnoremap <leader>L $
+nnoremap <leader>H ^
 nnoremap j gj
 nnoremap k gk
 nnoremap D d$
@@ -269,57 +233,90 @@ inoremap kj <ESC>
 nnoremap <C-x> :q<cr>
 "Disable ex-mode
 nnoremap Q <NOP>
-"Wipeout buffer
+"Wipeout buffer - Clean slate
 nnoremap <leader>b :bw<cr>
-
 "test map for ruby
 nnoremap ,rs :!BEFORE=1 rake test<cr>
 "tagbar map
 nmap <F8> :TagbarToggle<CR>
+"select all text in a buffer
+nnoremap <C-a> <esc>ggVG<CR>
+nnoremap <silent><leader>z :ZoomToggle<CR>
 "}}}
+
+" Extras {{{
+
+"for ignoring zip types
+let g:loaded_zipPlugin= 1                                               
+let g:loaded_zip      = 1   
+let g:loaded_gzip     = 1   
+
+let g:ackprg = 'ag --nogroup --nocolor --column' "for Ag
+
+setlocal fo+=aw "for mutt
 
 "Change cursor shape between insert and normal mode in iTerm2
 if $TERM_PROGRAM =~ "iTerm.app" 
     let &t_SI = "\<Esc>]50;CursorShape=1\x7" " Vertical bar in insert mode
     let &t_EI = "\<Esc>]50;CursorShape=0\x7" " Block in normal mode
 endif
-
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost *
-     \ if line("'\"") > 0 && line("'\"") <= line("$") |
-     \   exe "normal! g`\"" |
-     \ endif
-" Remember info about open buffers on close
-set viminfo^=%
+"}}}
 
 "functions start {{{
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
+" TODO
 """"""""""""""""""""""""""""""
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
 "vnoremap <silent> * :call VisualSelection('f')<CR>
 "vnoremap <silent> # :call VisualSelection('b')<CR>
 
-function! VisualSelection(direction) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
+" function! VisualSelection(direction) range
+"     let l:saved_reg = @"
+"     execute "normal! vgvy"
 
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+"     let l:pattern = escape(@", '\\/.*$^~[]')
+"     let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'b'
-        execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
-        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
-    endif
+"     if a:direction == 'b'
+"         execute "normal ?" . l:pattern . "^M"
+"     elseif a:direction == 'gv'
+"         call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+"     elseif a:direction == 'replace'
+"         call CmdLine("%s" . '/'. l:pattern . '/')
+"     elseif a:direction == 'f'
+"         execute "normal /" . l:pattern . "^M"
+"     endif
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
+"     let @/ = l:pattern
+"     let @" = l:saved_reg
+" endfunction
+
+"Tab wrapper feature
+function! InsertTabWrapper()
+    let col = col(".") - 1
+    if !col || getline(".")[col -1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-n>"
 endfunction
+" inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+" inoremap <s-tab> <c-p>
+
+
+" Zoom / Restore window.
+function! s:ZoomToggle() abort
+    if exists('t:zoomed') && t:zoomed
+        execute t:zoom_winrestcmd
+        let t:zoomed = 0
+    else
+        let t:zoom_winrestcmd = winrestcmd()
+        resize
+        vertical resize
+        let t:zoomed = 1
+    endif
+endfunction
+command! ZoomToggle call s:ZoomToggle()
 "}}}
