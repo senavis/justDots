@@ -60,6 +60,7 @@ brew cask install sublime-text3
 brew cask install dropbox
 brew cask install xtrafinder
 brew cask install spectacle
+brew cask install sqlitebrowser
 #brew cask install controlplane
 
 # cleanup
